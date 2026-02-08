@@ -1,4 +1,5 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
+import { Component, computed, inject, input, viewChild } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
 import {
   heroArrowDownMicro,
@@ -10,12 +11,10 @@ import { Table } from '../table/table';
 
 @Component({
   selector: 'app-header-cell',
-  imports: [NgIconComponent],
+  imports: [NgIconComponent, CdkDrag],
   templateUrl: './header-cell.html',
   host: {
-    class: 'flex items-center gap-2 group cursor-default select-none',
-    '[class.cursor-pointer]': 'column()?.sortable',
-    '(click)': 'column()?.sortable ? this.updateSortDirection() : null',
+    class: 'group cursor-default select-none relative p-2 block',
   },
 })
 export class HeaderCell {
@@ -29,9 +28,11 @@ export class HeaderCell {
 
   public readonly key = input.required<keyof Person>();
 
-  protected readonly column = computed(() =>
-    this.#table.COLUMNS.find((col) => col.key === this.key()),
-  );
+  #lastDistanceX?: number;
+
+  protected readonly cdkDrag = viewChild(CdkDrag);
+
+  protected readonly column = computed(() => this.#table.columns()[this.key()]);
 
   protected readonly sortDirection = computed(() => {
     if (!this.column()?.sortable) {
@@ -56,5 +57,26 @@ export class HeaderCell {
     } else {
       this.#table.order.set({ key: this.key(), direction: 'asc' });
     }
+  }
+
+  protected resizing(isResizing: boolean): void {
+    if (!isResizing) {
+      this.#lastDistanceX = undefined;
+    }
+
+    this.#table.resizing.set(isResizing);
+  }
+
+  protected onResize(event: CdkDragMove): void {
+    const deltaX = event.distance.x - (this.#lastDistanceX ?? 0);
+    this.#lastDistanceX = event.distance.x;
+
+    this.#table.updateColumnWidth(this.key(), deltaX);
+
+    this.cdkDrag()?.reset();
+  }
+
+  protected resetColumnWidth(): void {
+    this.#table.updateColumnWidth(this.key(), 'reset');
   }
 }

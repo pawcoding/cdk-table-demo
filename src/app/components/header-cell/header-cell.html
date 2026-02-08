@@ -1,20 +1,38 @@
 @if (column(); as column) {
-  <ng-icon [svg]="column.icon" />
+  <span
+    class="inline-flex items-center gap-2"
+    [class.cursor-pointer]="column.sortable"
+    (click)="column.sortable ? this.updateSortDirection() : null"
+  >
+    <ng-icon [svg]="column.icon" />
 
-  <span>{{ column.label }}</span>
+    <span>{{ column.label }}</span>
 
-  @if (column.sortable) {
-    <span class="size-4 flex items-center">
-      @if (sortDirection() === 'asc') {
-        <ng-icon [svg]="ICONS.sortAsc" />
-      } @else if (sortDirection() === 'desc') {
-        <ng-icon [svg]="ICONS.sortDesc" />
-      } @else {
-        <ng-icon
-          [svg]="ICONS.sort"
-          class="opacity-0 group-hover:opacity-100 duration-100 transition-opacity"
-        />
-      }
-    </span>
+    @if (column.sortable) {
+      <span class="size-4 flex items-center">
+        @if (sortDirection() === 'asc') {
+          <ng-icon [svg]="ICONS.sortAsc" />
+        } @else if (sortDirection() === 'desc') {
+          <ng-icon [svg]="ICONS.sortDesc" />
+        } @else {
+          <ng-icon
+            [svg]="ICONS.sort"
+            class="opacity-0 group-hover:opacity-100 duration-100 transition-opacity"
+          />
+        }
+      </span>
+    }
+  </span>
+
+  @if (column.resizable) {
+    <div
+      cdkDrag
+      cdkDragLockAxis="x"
+      class="absolute top-0 -right-px h-full w-2 cursor-col-resize z-10"
+      (cdkDragStarted)="resizing(true)"
+      (cdkDragEnded)="resizing(false)"
+      (cdkDragMoved)="onResize($event)"
+      (dblclick)="resetColumnWidth()"
+    ></div>
   }
 }

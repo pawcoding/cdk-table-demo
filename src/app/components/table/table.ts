@@ -1,11 +1,12 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { DatePipe } from '@angular/common';
-import { Component, inject, resource } from '@angular/core';
+import { Component, computed, inject, resource, signal } from '@angular/core';
 import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { COLUMNS } from '../../constants/columns';
 import { People } from '../../data-access/people';
 import { ResourceDataSource } from '../../data-access/resource.data-source';
 import { CountryPipe } from '../../pipes/country-pipe';
+import { Column } from '../../types/column';
 import { Order } from '../../types/order';
 import { Person } from '../../types/person';
 import { HeaderCell } from '../header-cell/header-cell';
@@ -19,7 +20,7 @@ import { HeaderCell } from '../header-cell/header-cell';
 export class Table {
   readonly #people = inject(People);
 
-  protected readonly columns: Array<keyof Person> = [
+  protected readonly visibleColumns: Array<keyof Person> = [
     'avatarUrl',
     'firstName',
     'lastName',
@@ -51,7 +52,17 @@ export class Table {
 
   protected readonly DATE_COLUMNS: Array<keyof Person> = ['createdAt', 'updatedAt'];
 
-  public readonly COLUMNS = COLUMNS;
+  readonly #columns = COLUMNS;
+
+  public readonly columns = computed(() => {
+    const columns: Partial<Record<keyof Person, Column<Person>>> = {};
+
+    for (const column of this.#columns) {
+      columns[column.key] = column;
+    }
+
+    return columns;
+  });
 
   public readonly order = injectLocalStorage<Order<Person>>('table-order', {
     storageSync: false,
@@ -60,6 +71,16 @@ export class Table {
       direction: 'asc',
     },
   });
+
+  public readonly columnWidths = injectLocalStorage<Partial<Record<keyof Person, number>>>(
+    'table-column-widths',
+    {
+      storageSync: false,
+      defaultValue: {},
+    },
+  );
+
+  public readonly resizing = signal(false);
 
   readonly #peopleRes = resource({
     params: () => ({
@@ -73,5 +94,20 @@ export class Table {
 
   protected trackById(_: number, person: Person): string {
     return person.id;
+  }
+
+  public updateColumnWidth(columnKey: keyof Person, deltaX: number | 'reset'): void {
+    if (deltaX === 'reset') {
+      this.columnWidths.update((widths) => {
+        const { [columnKey]: _, ...rest } = widths;
+        return rest;
+      });
+      return;
+    }
+
+    const currentWidth =
+      this.columnWidths()[columnKey] ?? this.columns()[columnKey]?.defaultWidth ?? 100;
+    const newWidth = Math.max(currentWidth + deltaX, 100);
+    this.columnWidths.update((widths) => ({ ...widths, [columnKey]: newWidth }));
   }
 }

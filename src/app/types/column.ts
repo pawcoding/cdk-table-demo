@@ -3,4 +3,6 @@ export type Column<TItem> = {
   label: string;
   icon: string;
   sortable: boolean;
+  resizable: boolean;
+  defaultWidth: number;
 };
