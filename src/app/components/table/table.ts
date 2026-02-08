@@ -1,6 +1,7 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { DatePipe } from '@angular/common';
-import { Component, inject, resource, signal } from '@angular/core';
+import { Component, inject, resource } from '@angular/core';
+import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { COLUMNS } from '../../constants/columns';
 import { People } from '../../data-access/people';
 import { ResourceDataSource } from '../../data-access/resource.data-source';
@@ -52,9 +53,12 @@ export class Table {
 
   public readonly COLUMNS = COLUMNS;
 
-  public readonly order = signal<Order<Person>>({
-    key: 'firstName',
-    direction: 'asc',
+  public readonly order = injectLocalStorage<Order<Person>>('table-order', {
+    storageSync: false,
+    defaultValue: {
+      key: 'firstName',
+      direction: 'asc',
+    },
   });
 
   readonly #peopleRes = resource({
