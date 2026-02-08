@@ -90,3 +90,19 @@
     </div>
   </ng-template>
 </div>
+
+<div role="separator" class="w-px h-10 bg-neutral-200 dark:bg-neutral-700"></div>
+
+<div class="flex gap-1 items-center">
+  <button
+    ngToolbarWidget
+    id="columnOrder"
+    value="columnOrder"
+    (click)="toggleColumnOrderSideSheet()"
+    (keydown.enter)="toggleColumnOrderSideSheet()"
+    (keydown.space)="toggleColumnOrderSideSheet()"
+    class="hover:bg-neutral-200 cursor-pointer rounded-sm flex items-center justify-center size-10 dark:hover:bg-neutral-700"
+  >
+    <ng-icon [svg]="ICONS.columns" size="1.5rem" />
+  </button>
+</div>

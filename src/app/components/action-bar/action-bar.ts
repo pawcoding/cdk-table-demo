@@ -3,7 +3,11 @@ import { Toolbar, ToolbarWidget } from '@angular/aria/toolbar';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Component, computed, inject, viewChild } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
-import { heroChevronLeftMini, heroChevronRightMini } from '@ng-icons/heroicons/mini';
+import {
+  heroChevronLeftMini,
+  heroChevronRightMini,
+  heroViewColumnsMini,
+} from '@ng-icons/heroicons/mini';
 import { Table } from '../table/table';
 
 @Component({
@@ -31,6 +35,7 @@ export class ActionBar {
   protected readonly ICONS = {
     previous: heroChevronLeftMini,
     next: heroChevronRightMini,
+    columns: heroViewColumnsMini,
   } as const;
 
   protected readonly pageMenu = viewChild<Menu<number>>('pageMenu');
@@ -63,5 +68,9 @@ export class ActionBar {
     }
 
     this.#table.pagination.update((pagination) => ({ ...pagination, pageIndex: newIndex }));
+  }
+
+  protected toggleColumnOrderSideSheet(): void {
+    this.#table.showColumnOrderSideSheet.update((show) => !show);
   }
 }

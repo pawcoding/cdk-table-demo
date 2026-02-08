@@ -12,10 +12,11 @@ import { Pagination } from '../../types/pagination';
 import { Person } from '../../types/person';
 import { ActionBar } from '../action-bar/action-bar';
 import { HeaderCell } from '../header-cell/header-cell';
+import { SideSheet } from '../side-sheet/side-sheet';
 
 @Component({
   selector: 'app-table',
-  imports: [CdkTableModule, DatePipe, HeaderCell, CountryPipe, ActionBar],
+  imports: [CdkTableModule, DatePipe, HeaderCell, CountryPipe, ActionBar, SideSheet],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
@@ -99,6 +100,8 @@ export class Table {
   );
 
   public readonly resizing = signal(false);
+
+  public readonly showColumnOrderSideSheet = signal(false);
 
   readonly #peopleRes = resource({
     params: () =>
