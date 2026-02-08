@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { faker } from '@faker-js/faker';
 import { Order } from '../types/order';
+import { Pagination } from '../types/pagination';
 import { Person } from '../types/person';
 import { sleep } from '../utils/sleep';
 
-type Params<TItem> = {
+export type Params<TItem> = {
   order: Order<TItem>;
+  pagination: Pagination;
 };
 
 @Injectable({
@@ -16,7 +18,7 @@ export class People {
 
   public async getPeople(abortSignal: AbortSignal, params: Params<Person>): Promise<Array<Person>> {
     // Simulate a delay to demonstrate the loading state
-    await sleep(Math.random() * 2000, abortSignal);
+    await sleep(Math.random() * params.pagination.pageSize * 20, abortSignal);
 
     return this.#people
       .toSorted((a, b) => {
@@ -30,7 +32,10 @@ export class People {
         const comparison = aValue > bValue ? 1 : -1;
         return params.order.direction === 'asc' ? comparison : -comparison;
       })
-      .slice(0, 25);
+      .slice(
+        params.pagination.pageIndex * params.pagination.pageSize,
+        (params.pagination.pageIndex + 1) * params.pagination.pageSize,
+      );
   }
 
   private createRandomPerson(): Person {

@@ -1,0 +1,58 @@
+<div>
+  <button
+    ngToolbarWidget
+    ngMenuTrigger
+    #pageOrigin
+    #pageTrigger="ngMenuTrigger"
+    [menu]="pageMenu()"
+    value="pageSize"
+    id="pageSize"
+    class="p-2 hover:bg-neutral-200 cursor-pointer rounded-sm"
+  >
+    <b>
+      {{ pageSize() }}
+    </b>
+    per page
+  </button>
+
+  <ng-template
+    [cdkConnectedOverlayOpen]="pageTrigger.expanded()"
+    [cdkConnectedOverlay]="{ origin: pageOrigin, usePopover: 'inline' }"
+    [cdkConnectedOverlayPositions]="[
+      {
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'bottom',
+        offsetY: -8,
+        offsetX: -4,
+      },
+    ]"
+    cdkAttachPopoverAsChild
+  >
+    <div
+      ngMenu
+      #pageMenu="ngMenu"
+      class="flex flex-col p-2 bg-neutral-100 border border-neutral-200 rounded-md shadow-md"
+    >
+      <ng-template ngMenuContent>
+        @for (numItems of PAGE_SIZES; track numItems) {
+          <button
+            ngMenuItem
+            [value]="numItems"
+            [disabled]="pageSize() === numItems"
+            (click)="setPageSize(numItems)"
+            (keydown.enter)="setPageSize(numItems)"
+            (keydown.space)="setPageSize(numItems)"
+            class="p-2 hover:bg-neutral-200 cursor-pointer rounded-sm text-left"
+          >
+            <b>
+              {{ numItems }}
+            </b>
+            per page
+          </button>
+        }
+      </ng-template>
+    </div>
+  </ng-template>
+</div>

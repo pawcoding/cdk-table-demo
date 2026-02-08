@@ -1,10 +1,12 @@
 table {
   --border-color: var(--color-neutral-200);
+  --background-color: var(--color-white);
 }
 
 th,
 td {
   text-align: left;
+  background-color: var(--background-color);
 
   overflow: hidden;
   text-overflow: ellipsis;

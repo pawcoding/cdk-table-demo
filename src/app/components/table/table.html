@@ -3,7 +3,7 @@
   [dataSource]="dataSource"
   [trackBy]="trackById"
   [fixedLayout]="!resizing()"
-  class="w-full table-fixed"
+  class="w-full table-fixed mb-16"
 >
   @for (column of TEXT_COLUMNS; track column) {
     <ng-container [cdkColumnDef]="column">
@@ -61,6 +61,8 @@
     </td>
   </ng-container>
 
-  <tr cdk-header-row *cdkHeaderRowDef="visibleColumns"></tr>
+  <tr cdk-header-row *cdkHeaderRowDef="visibleColumns; sticky: true"></tr>
   <tr cdk-row *cdkRowDef="let person; columns: visibleColumns"></tr>
 </table>
+
+<app-action-bar />

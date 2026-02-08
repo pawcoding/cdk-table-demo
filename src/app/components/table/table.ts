@@ -3,17 +3,19 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { COLUMNS } from '../../constants/columns';
-import { People } from '../../data-access/people';
+import { Params, People } from '../../data-access/people';
 import { ResourceDataSource } from '../../data-access/resource.data-source';
 import { CountryPipe } from '../../pipes/country-pipe';
 import { Column } from '../../types/column';
 import { Order } from '../../types/order';
+import { Pagination } from '../../types/pagination';
 import { Person } from '../../types/person';
+import { ActionBar } from '../action-bar/action-bar';
 import { HeaderCell } from '../header-cell/header-cell';
 
 @Component({
   selector: 'app-table',
-  imports: [CdkTableModule, DatePipe, HeaderCell, CountryPipe],
+  imports: [CdkTableModule, DatePipe, HeaderCell, CountryPipe, ActionBar],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
@@ -72,6 +74,14 @@ export class Table {
     },
   });
 
+  public readonly pagination = injectLocalStorage<Pagination>('table-pagination', {
+    storageSync: false,
+    defaultValue: {
+      pageIndex: 0,
+      pageSize: 25,
+    },
+  });
+
   public readonly columnWidths = injectLocalStorage<Partial<Record<keyof Person, number>>>(
     'table-column-widths',
     {
@@ -83,9 +93,11 @@ export class Table {
   public readonly resizing = signal(false);
 
   readonly #peopleRes = resource({
-    params: () => ({
-      order: this.order(),
-    }),
+    params: () =>
+      ({
+        order: this.order(),
+        pagination: this.pagination(),
+      }) satisfies Params<Person>,
     loader: ({ abortSignal, params }) => this.#people.getPeople(abortSignal, params),
     defaultValue: [],
   });
