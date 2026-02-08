@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { CdkTableModule } from '@angular/cdk/table';
+import { Table } from './components/table/table';
 
 @Component({
   selector: 'app-root',
-  imports: [CdkTableModule],
+  imports: [Table],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
