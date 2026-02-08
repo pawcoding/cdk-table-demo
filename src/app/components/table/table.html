@@ -17,6 +17,13 @@
     </ng-container>
   }
 
+  <ng-container cdkColumnDef="country">
+    <th cdk-header-cell *cdkHeaderCellDef>
+      <app-header-cell key="country" />
+    </th>
+    <td cdk-cell *cdkCellDef="let person">{{ person.country | country }}</td>
+  </ng-container>
+
   <ng-container cdkColumnDef="avatarUrl">
     <th cdk-header-cell *cdkHeaderCellDef>
       <app-header-cell key="avatarUrl" />

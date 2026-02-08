@@ -12,6 +12,6 @@ export type Person = {
   zip: string;
   country: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date;
   avatarUrl: string;
 };
