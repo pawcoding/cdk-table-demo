@@ -1,24 +1,7 @@
 import { Injectable } from '@angular/core';
 import { faker } from '@faker-js/faker';
+import { Person } from '../types/person';
 import { sleep } from '../utils/sleep';
-
-export type Person = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  jobTitle: string;
-  website: string;
-  email: string;
-  phone: string;
-  company: string;
-  street: string;
-  city: string;
-  zip: string;
-  country: string;
-  createdAt: Date;
-  updatedAt?: Date;
-  avatarUrl: string;
-};
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +33,7 @@ export class People {
       company: faker.company.name(),
       createdAt: faker.date.past(),
       updatedAt: faker.helpers.maybe(() => faker.date.recent()),
-      avatarUrl: faker.image.personPortrait({ sex }),
+      avatarUrl: faker.image.personPortrait({ sex, size: 32 }),
       street: faker.location.streetAddress(true),
       city: faker.location.city(),
       zip: faker.location.zipCode('#####'),

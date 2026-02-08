@@ -29,6 +29,8 @@
     "@angular/core": "^21.1.0",
     "@angular/platform-browser": "^21.1.0",
     "@faker-js/faker": "^10.3.0",
+    "@ng-icons/core": "^33.0.0",
+    "@ng-icons/feather-icons": "^33.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

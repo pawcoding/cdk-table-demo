@@ -1,12 +1,15 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { DatePipe } from '@angular/common';
 import { Component, inject, resource } from '@angular/core';
-import { People, Person } from '../../data-access/people';
+import { People } from '../../data-access/people';
 import { ResourceDataSource } from '../../data-access/resource.data-source';
+import { Person } from '../../types/person';
+import { HeaderCell } from '../header-cell/header-cell';
+import { COLUMNS } from '../../constants/columns';
 
 @Component({
   selector: 'app-table',
-  imports: [CdkTableModule, DatePipe],
+  imports: [CdkTableModule, DatePipe, HeaderCell],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
@@ -50,6 +53,8 @@ export class Table {
   ];
 
   protected readonly DATE_COLUMNS: Array<keyof Person> = ['createdAt', 'updatedAt'];
+
+  public readonly COLUMNS = COLUMNS;
 
   protected readonly dataSource = new ResourceDataSource(this.#peopleRes);
 
