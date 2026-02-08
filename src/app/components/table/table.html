@@ -57,7 +57,13 @@
       <app-header-cell key="avatarUrl" />
     </th>
     <td cdk-cell *cdkCellDef="let person">
-      <img [src]="person.avatarUrl" class="rounded-full" alt="avatar" width="32" height="32" />
+      <img
+        [src]="person.avatarUrl"
+        class="mx-auto rounded-full"
+        alt="avatar"
+        width="32"
+        height="32"
+      />
     </td>
   </ng-container>
 

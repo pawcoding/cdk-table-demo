@@ -1,6 +1,11 @@
 table {
   --border-color: var(--color-neutral-200);
   --background-color: var(--color-white);
+
+  @media (prefers-color-scheme: dark) {
+    --border-color: var(--color-neutral-800);
+    --background-color: var(--color-neutral-950);
+  }
 }
 
 th,

@@ -20,7 +20,7 @@ import { Table } from '../table/table';
   templateUrl: './action-bar.html',
   host: {
     class:
-      'block fixed bottom-1 left-1/2 -translate-x-1/2 p-2 bg-neutral-100 border border-neutral-200 rounded-md shadow-md flex items-center gap-2',
+      'block fixed bottom-1 left-1/2 -translate-x-1/2 p-2 bg-neutral-100 border border-neutral-200 rounded-md not-dark:shadow-md flex items-center gap-2 dark:bg-neutral-800 dark:border-neutral-700',
     'aria-label': 'Table actions',
   },
   hostDirectives: [Toolbar],

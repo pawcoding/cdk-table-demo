@@ -10,10 +10,12 @@
 
     @if (column.sortable) {
       <span class="size-4 flex items-center">
-        @if (sortDirection() === 'asc') {
-          <ng-icon [svg]="ICONS.sortAsc" />
-        } @else if (sortDirection() === 'desc') {
-          <ng-icon [svg]="ICONS.sortDesc" />
+        @if (sortDirection(); as direction) {
+          <ng-icon
+            [svg]="ICONS.sortAsc"
+            [class.rotate-180]="direction === 'desc'"
+            class="transition-transform duration-100"
+          />
         } @else {
           <ng-icon
             [svg]="ICONS.sort"

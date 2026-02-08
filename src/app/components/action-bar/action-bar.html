@@ -7,7 +7,7 @@
     (click)="goToPage(-1)"
     (keydown.enter)="goToPage(-1)"
     (keydown.space)="goToPage(-1)"
-    class="hover:not-disabled:bg-neutral-200 cursor-pointer rounded-sm flex items-center justify-center size-10"
+    class="hover:not-aria-disabled:bg-neutral-200 not-aria-disabled:cursor-pointer rounded-sm flex items-center justify-center size-10 dark:hover:not-aria-disabled:bg-neutral-700"
   >
     <ng-icon [svg]="ICONS.previous" size="1.5rem" />
   </button>
@@ -24,13 +24,13 @@
     (click)="goToPage(1)"
     (keydown.enter)="goToPage(1)"
     (keydown.space)="goToPage(1)"
-    class="hover:not-disabled:bg-neutral-200 cursor-pointer rounded-sm flex items-center justify-center size-10"
+    class="hover:not-aria-disabled:bg-neutral-200 not-aria-disabled:cursor-pointer rounded-sm flex items-center justify-center size-10 dark:hover:not-aria-disabled:bg-neutral-700"
   >
     <ng-icon [svg]="ICONS.next" size="1.5rem" />
   </button>
 </div>
 
-<div role="separator" class="w-px h-10 bg-neutral-200"></div>
+<div role="separator" class="w-px h-10 bg-neutral-200 dark:bg-neutral-700"></div>
 
 <div>
   <button
@@ -41,7 +41,7 @@
     [menu]="pageMenu()"
     value="pageSize"
     id="pageSize"
-    class="p-2 hover:bg-neutral-200 cursor-pointer rounded-sm"
+    class="p-2 hover:bg-neutral-200 cursor-pointer rounded-sm dark:hover:bg-neutral-700"
   >
     <b>
       {{ pageSize() }}
@@ -67,7 +67,7 @@
     <div
       ngMenu
       #pageMenu="ngMenu"
-      class="flex flex-col p-2 bg-neutral-100 border border-neutral-200 rounded-md shadow-md"
+      class="flex flex-col p-2 bg-neutral-100 border border-neutral-200 rounded-md not-dark:shadow-md dark:bg-neutral-800 dark:border-neutral-700"
     >
       <ng-template ngMenuContent>
         @for (numItems of PAGE_SIZES; track numItems) {
@@ -78,7 +78,7 @@
             (click)="setPageSize(numItems)"
             (keydown.enter)="setPageSize(numItems)"
             (keydown.space)="setPageSize(numItems)"
-            class="p-2 hover:bg-neutral-200 cursor-pointer rounded-sm text-left"
+            class="p-2 hover:bg-neutral-200 cursor-pointer rounded-sm text-left dark:hover:bg-neutral-700"
           >
             <b>
               {{ numItems }}
