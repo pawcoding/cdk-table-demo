@@ -1,3 +1,37 @@
+<div class="flex gap-1 items-center">
+  <button
+    ngToolbarWidget
+    id="previousPage"
+    value="previousPage"
+    [disabled]="pageIndex() === 0"
+    (click)="goToPage(-1)"
+    (keydown.enter)="goToPage(-1)"
+    (keydown.space)="goToPage(-1)"
+    class="hover:not-disabled:bg-neutral-200 cursor-pointer rounded-sm flex items-center justify-center size-10"
+  >
+    <ng-icon [svg]="ICONS.previous" size="1.5rem" />
+  </button>
+
+  <b class="flex items-center justify-center size-10">
+    {{ pageIndex() + 1 }}
+  </b>
+
+  <button
+    ngToolbarWidget
+    id="nextPage"
+    value="nextPage"
+    [disabled]="pageIndex() === maxIndex() - 1"
+    (click)="goToPage(1)"
+    (keydown.enter)="goToPage(1)"
+    (keydown.space)="goToPage(1)"
+    class="hover:not-disabled:bg-neutral-200 cursor-pointer rounded-sm flex items-center justify-center size-10"
+  >
+    <ng-icon [svg]="ICONS.next" size="1.5rem" />
+  </button>
+</div>
+
+<div role="separator" class="w-px h-10 bg-neutral-200"></div>
+
 <div>
   <button
     ngToolbarWidget

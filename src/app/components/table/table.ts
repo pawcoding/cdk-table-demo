@@ -80,6 +80,14 @@ export class Table {
       pageIndex: 0,
       pageSize: 25,
     },
+    stringify: (value) => JSON.stringify({ pageSize: value.pageSize }),
+    parse: (value) => {
+      const parsed = JSON.parse(value);
+      return {
+        pageIndex: 0,
+        pageSize: parsed.pageSize,
+      };
+    },
   });
 
   public readonly columnWidths = injectLocalStorage<Partial<Record<keyof Person, number>>>(
