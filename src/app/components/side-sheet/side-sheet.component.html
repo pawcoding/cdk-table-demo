@@ -1,0 +1,29 @@
+<ng-template #sideSheetTemplate>
+  <aside
+    cdkTrapFocus
+    cdkTrapFocusAutoCapture
+    class="translate-x-0 bg-neutral-100 p-4 duration-300 not-dark:shadow-md dark:bg-neutral-800 starting:translate-x-full"
+    [class.translate-x-full]="!isOpen()"
+  >
+    <section>
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-xl font-semibold">{{ label() }}</h2>
+
+        <button
+          class="flex size-8 cursor-pointer items-center justify-center rounded-sm hover:bg-neutral-200 dark:hover:bg-neutral-700"
+          (click)="isOpen.set(false)"
+        >
+          <ng-icon [svg]="ICONS.close" />
+        </button>
+      </div>
+
+      <p>{{ description() }}</p>
+    </section>
+
+    <hr class="my-4 border-neutral-200 dark:border-neutral-700" />
+
+    <section class="overflow-auto">
+      <ng-content />
+    </section>
+  </aside>
+</ng-template>

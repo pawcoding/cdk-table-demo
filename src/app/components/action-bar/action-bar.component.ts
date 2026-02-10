@@ -8,7 +8,7 @@ import {
   heroChevronRightMini,
   heroViewColumnsMini,
 } from '@ng-icons/heroicons/mini';
-import { Table } from '../table/table';
+import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-action-bar',
@@ -21,7 +21,7 @@ import { Table } from '../table/table';
     OverlayModule,
     ToolbarWidget,
   ],
-  templateUrl: './action-bar.html',
+  templateUrl: './action-bar.component.html',
   host: {
     class:
       'block fixed bottom-1 left-1/2 -translate-x-1/2 p-2 bg-neutral-100 border border-neutral-200 rounded-md not-dark:shadow-md flex items-center gap-2 dark:bg-neutral-800 dark:border-neutral-700',
@@ -29,8 +29,8 @@ import { Table } from '../table/table';
   },
   hostDirectives: [Toolbar],
 })
-export class ActionBar {
-  readonly #table = inject(Table);
+export class ActionBarComponent {
+  readonly #table = inject(TableComponent);
 
   protected readonly ICONS = {
     previous: heroChevronLeftMini,

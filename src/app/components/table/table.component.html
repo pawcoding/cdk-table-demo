@@ -3,7 +3,7 @@
   [dataSource]="dataSource"
   [trackBy]="trackById"
   [fixedLayout]="!resizing()"
-  class="w-full table-fixed mb-16"
+  class="mb-16 w-full table-fixed"
 >
   @for (column of TEXT_COLUMNS; track column) {
     <ng-container [cdkColumnDef]="column">
@@ -14,12 +14,14 @@
       >
         <app-header-cell [key]="column" />
       </th>
-      <td cdk-cell *cdkCellDef="let person">
+      <td
+        cdk-cell
+        *cdkCellDef="let person"
+      >
         {{ person[column] }}
       </td>
     </ng-container>
   }
-
   @for (column of DATE_COLUMNS; track column) {
     <ng-container [cdkColumnDef]="column">
       <th
@@ -29,7 +31,10 @@
       >
         <app-header-cell [key]="column" />
       </th>
-      <td cdk-cell *cdkCellDef="let person">
+      <td
+        cdk-cell
+        *cdkCellDef="let person"
+      >
         {{ person[column] | date }}
       </td>
     </ng-container>
@@ -43,7 +48,10 @@
     >
       <app-header-cell key="country" />
     </th>
-    <td cdk-cell *cdkCellDef="let person">
+    <td
+      cdk-cell
+      *cdkCellDef="let person"
+    >
       {{ person.country | country }}
     </td>
   </ng-container>
@@ -56,7 +64,10 @@
     >
       <app-header-cell key="avatarUrl" />
     </th>
-    <td cdk-cell *cdkCellDef="let person">
+    <td
+      cdk-cell
+      *cdkCellDef="let person"
+    >
       <img
         [src]="person.avatarUrl"
         class="mx-auto rounded-full"
@@ -67,8 +78,14 @@
     </td>
   </ng-container>
 
-  <tr cdk-header-row *cdkHeaderRowDef="visibleColumns; sticky: true"></tr>
-  <tr cdk-row *cdkRowDef="let person; columns: visibleColumns"></tr>
+  <tr
+    cdk-header-row
+    *cdkHeaderRowDef="visibleColumns; sticky: true"
+  ></tr>
+  <tr
+    cdk-row
+    *cdkRowDef="let person; columns: visibleColumns"
+  ></tr>
 </table>
 
 <app-action-bar />

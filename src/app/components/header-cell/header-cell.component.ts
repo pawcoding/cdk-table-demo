@@ -7,18 +7,18 @@ import {
   heroArrowUpMicro,
 } from '@ng-icons/heroicons/micro';
 import { Person } from '../../types/person';
-import { Table } from '../table/table';
+import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-header-cell',
   imports: [NgIconComponent, CdkDrag],
-  templateUrl: './header-cell.html',
+  templateUrl: './header-cell.component.html',
   host: {
     class: 'group cursor-default select-none relative p-2 block',
   },
 })
-export class HeaderCell {
-  readonly #table = inject(Table);
+export class HeaderCellComponent {
+  readonly #table = inject(TableComponent);
 
   protected readonly ICONS = {
     sortAsc: heroArrowUpMicro,

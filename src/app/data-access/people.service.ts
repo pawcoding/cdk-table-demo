@@ -13,7 +13,7 @@ export type Params<TItem> = {
 @Injectable({
   providedIn: 'root',
 })
-export class People {
+export class PeopleService {
   readonly #people: Array<Person> = Array.from({ length: 500 }, () => this.createRandomPerson());
 
   public async getPeople(abortSignal: AbortSignal, params: Params<Person>): Promise<Array<Person>> {

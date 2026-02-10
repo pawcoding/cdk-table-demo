@@ -9,7 +9,7 @@
     <span>{{ column.label }}</span>
 
     @if (column.sortable) {
-      <span class="size-4 flex items-center">
+      <span class="flex size-4 items-center">
         @if (sortDirection(); as direction) {
           <ng-icon
             [svg]="ICONS.sortAsc"
@@ -19,7 +19,7 @@
         } @else {
           <ng-icon
             [svg]="ICONS.sort"
-            class="opacity-0 group-hover:opacity-100 duration-100 transition-opacity"
+            class="opacity-0 transition-opacity duration-100 group-hover:opacity-100"
           />
         }
       </span>
@@ -30,7 +30,7 @@
     <div
       cdkDrag
       cdkDragLockAxis="x"
-      class="absolute top-0 -right-px h-full w-2 cursor-col-resize z-10"
+      class="absolute top-0 -right-px z-10 h-full w-2 cursor-col-resize"
       (cdkDragStarted)="resizing(true)"
       (cdkDragEnded)="resizing(false)"
       (cdkDragMoved)="onResize($event)"

@@ -3,25 +3,32 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { COLUMNS } from '../../constants/columns';
-import { Params, People } from '../../data-access/people';
+import { Params, PeopleService } from '../../data-access/people.service';
 import { ResourceDataSource } from '../../data-access/resource.data-source';
 import { CountryPipe } from '../../pipes/country-pipe';
 import { Column } from '../../types/column';
 import { Order } from '../../types/order';
 import { Pagination } from '../../types/pagination';
 import { Person } from '../../types/person';
-import { ActionBar } from '../action-bar/action-bar';
-import { HeaderCell } from '../header-cell/header-cell';
-import { SideSheet } from '../side-sheet/side-sheet';
+import { ActionBarComponent } from '../action-bar/action-bar.component';
+import { HeaderCellComponent } from '../header-cell/header-cell.component';
+import { SideSheetComponent } from '../side-sheet/side-sheet.component';
 
 @Component({
   selector: 'app-table',
-  imports: [CdkTableModule, DatePipe, HeaderCell, CountryPipe, ActionBar, SideSheet],
-  templateUrl: './table.html',
-  styleUrl: './table.css',
+  imports: [
+    ActionBarComponent,
+    CdkTableModule,
+    CountryPipe,
+    DatePipe,
+    HeaderCellComponent,
+    SideSheetComponent,
+  ],
+  templateUrl: './table.component.html',
+  styleUrl: './table.component.css',
 })
-export class Table {
-  readonly #people = inject(People);
+export class TableComponent {
+  readonly #people = inject(PeopleService);
 
   protected readonly visibleColumns: Array<keyof Person> = [
     'avatarUrl',

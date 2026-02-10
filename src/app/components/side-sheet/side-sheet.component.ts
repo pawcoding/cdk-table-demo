@@ -19,9 +19,9 @@ import { heroXMarkMini } from '@ng-icons/heroicons/mini';
 @Component({
   selector: 'app-side-sheet',
   imports: [NgIconComponent, CdkTrapFocus],
-  templateUrl: './side-sheet.html',
+  templateUrl: './side-sheet.component.html',
 })
-export class SideSheet {
+export class SideSheetComponent {
   readonly #overlay = inject(Overlay);
   readonly #viewContainerRef = inject(ViewContainerRef);
 
