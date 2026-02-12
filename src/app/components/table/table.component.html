@@ -80,11 +80,11 @@
 
   <tr
     cdk-header-row
-    *cdkHeaderRowDef="visibleColumns; sticky: true"
+    *cdkHeaderRowDef="visibleColumns(); sticky: true"
   ></tr>
   <tr
     cdk-row
-    *cdkRowDef="let person; columns: visibleColumns"
+    *cdkRowDef="let person; columns: visibleColumns()"
   ></tr>
 </table>
 
@@ -95,9 +95,5 @@
   label="Column order"
   description="Drag and drop the columns to change their order"
 >
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas dignissimos delectus accusamus
-    enim, dolore eaque voluptatum laudantium laboriosam velit quibusdam quam nisi vero reprehenderit
-    nesciunt architecto voluptate facilis quidem sed.
-  </p>
+  <app-column-order-menu />
 </app-side-sheet>

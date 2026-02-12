@@ -1,5 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@layer theme, base, cdk-resets, components, utilities;
 
 @import 'tailwindcss';
 
 @import '@angular/cdk/overlay-prebuilt.css' layer(base);
+
+@layer components {
+  .cdk-drop-list-dragging {
+    @apply cursor-grabbing;
+  }
+
+  .cdk-drag-preview {
+    @apply bg-neutral-200! dark:bg-neutral-700!;
+  }
+}

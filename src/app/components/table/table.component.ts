@@ -1,6 +1,13 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, resource, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  resource,
+  signal,
+} from '@angular/core';
 import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { COLUMNS } from '../../constants/columns';
 import { Params, PeopleService } from '../../data-access/people.service';
@@ -11,6 +18,7 @@ import { Order } from '../../types/order';
 import { Pagination } from '../../types/pagination';
 import { Person } from '../../types/person';
 import { ActionBarComponent } from '../action-bar/action-bar.component';
+import { ColumnOrderMenuComponent } from '../column-order-menu/column-order-menu.component';
 import { HeaderCellComponent } from '../header-cell/header-cell.component';
 import { SideSheetComponent } from '../side-sheet/side-sheet.component';
 
@@ -19,6 +27,7 @@ import { SideSheetComponent } from '../side-sheet/side-sheet.component';
   imports: [
     ActionBarComponent,
     CdkTableModule,
+    ColumnOrderMenuComponent,
     CountryPipe,
     DatePipe,
     HeaderCellComponent,
@@ -26,26 +35,10 @@ import { SideSheetComponent } from '../side-sheet/side-sheet.component';
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
   readonly #people = inject(PeopleService);
-
-  protected readonly visibleColumns: Array<keyof Person> = [
-    'avatarUrl',
-    'firstName',
-    'lastName',
-    'jobTitle',
-    'company',
-    'website',
-    'email',
-    'phone',
-    'street',
-    'city',
-    'zip',
-    'country',
-    'createdAt',
-    'updatedAt',
-  ];
 
   protected readonly TEXT_COLUMNS: Array<keyof Person> = [
     'firstName',
@@ -101,10 +94,15 @@ export class TableComponent {
   public readonly columnWidths = injectLocalStorage<Partial<Record<keyof Person, number>>>(
     'table-column-widths',
     {
-      storageSync: false,
       defaultValue: {},
     },
   );
+
+  public readonly columnOrder = injectLocalStorage<Array<keyof Person>>('table-column-order', {
+    defaultValue: COLUMNS.map((column) => column.key),
+  });
+
+  protected readonly visibleColumns = computed(() => this.columnOrder());
 
   public readonly resizing = signal(false);
 

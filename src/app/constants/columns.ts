@@ -13,6 +13,14 @@ import { Person } from '../types/person';
 
 export const COLUMNS: Array<Column<Person>> = [
   {
+    key: 'avatarUrl',
+    label: 'Avatar',
+    icon: heroUserCircleMicro,
+    sortable: false,
+    resizable: false,
+    defaultWidth: 100,
+  },
+  {
     key: 'firstName',
     label: 'First Name',
     icon: heroUserCircleMicro,
@@ -37,6 +45,14 @@ export const COLUMNS: Array<Column<Person>> = [
     defaultWidth: 250,
   },
   {
+    key: 'company',
+    label: 'Company',
+    icon: heroHomeMicro,
+    sortable: true,
+    resizable: true,
+    defaultWidth: 200,
+  },
+  {
     key: 'website',
     label: 'Website',
     icon: heroGlobeAltMicro,
@@ -59,14 +75,6 @@ export const COLUMNS: Array<Column<Person>> = [
     sortable: true,
     resizable: true,
     defaultWidth: 150,
-  },
-  {
-    key: 'company',
-    label: 'Company',
-    icon: heroHomeMicro,
-    sortable: true,
-    resizable: true,
-    defaultWidth: 200,
   },
   {
     key: 'street',
@@ -115,13 +123,5 @@ export const COLUMNS: Array<Column<Person>> = [
     sortable: true,
     resizable: false,
     defaultWidth: 150,
-  },
-  {
-    key: 'avatarUrl',
-    label: 'Avatar',
-    icon: heroUserCircleMicro,
-    sortable: false,
-    resizable: false,
-    defaultWidth: 100,
   },
 ];

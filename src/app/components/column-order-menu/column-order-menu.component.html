@@ -1,0 +1,34 @@
+<div
+  cdkDropList
+  (cdkDropListDropped)="onDrop($event)"
+>
+  @for (columnName of columnOrder(); track columnName) {
+    @if (columns()[columnName]; as column) {
+      <div
+        cdkDrag
+        cdkDragBoundary=".cdk-drop-list"
+        cdkDragLockAxis="y"
+        class="flex items-center gap-4 rounded bg-neutral-100 p-1 focus-within:bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:focus-within:bg-neutral-700 dark:hover:bg-neutral-700"
+      >
+        <span
+          cdkDragHandle
+          class="flex size-8 shrink-0 cursor-grab items-center justify-center rounded"
+          tabindex="0"
+          (keydown.arrowdown)="onDrop({ previousIndex: $index, currentIndex: $index + 1 })"
+          (keydown.arrowup)="onDrop({ previousIndex: $index, currentIndex: $index - 1 })"
+        >
+          <ng-icon [svg]="ICONS.dragHandle" />
+        </span>
+
+        <span class="flex items-center gap-2">
+          <ng-icon
+            [svg]="column.icon"
+            size="1.2rem"
+          />
+
+          {{ column.label }}
+        </span>
+      </div>
+    }
+  }
+</div>
