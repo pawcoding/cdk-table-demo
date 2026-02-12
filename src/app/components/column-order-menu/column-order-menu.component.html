@@ -8,11 +8,12 @@
         cdkDrag
         cdkDragBoundary=".cdk-drop-list"
         cdkDragLockAxis="y"
-        class="flex items-center gap-4 rounded bg-neutral-100 p-1 focus-within:bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:focus-within:bg-neutral-700 dark:hover:bg-neutral-700"
+        class="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded bg-neutral-100 p-1 focus-within:bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:focus-within:bg-neutral-700 dark:hover:bg-neutral-700"
+        [title]="column.label"
       >
         <span
           cdkDragHandle
-          class="flex size-8 shrink-0 cursor-grab items-center justify-center rounded"
+          class="flex size-8 cursor-grab items-center justify-center rounded"
           tabindex="0"
           (keydown.arrowdown)="onDrop({ previousIndex: $index, currentIndex: $index + 1 })"
           (keydown.arrowup)="onDrop({ previousIndex: $index, currentIndex: $index - 1 })"
@@ -20,14 +21,25 @@
           <ng-icon [svg]="ICONS.dragHandle" />
         </span>
 
-        <span class="flex items-center gap-2">
+        <span class="flex min-w-0 cursor-default items-center gap-2">
           <ng-icon
             [svg]="column.icon"
+            class="shrink-0"
             size="1.2rem"
           />
 
-          {{ column.label }}
+          <span class="truncate">
+            {{ column.label }}
+          </span>
         </span>
+
+        @let isVisible = columnVisibility()[columnName] !== false;
+        <button
+          class="flex size-8 cursor-pointer items-center justify-center rounded focus-within:bg-neutral-300 hover:bg-neutral-300 dark:focus-within:bg-neutral-600 dark:hover:bg-neutral-600"
+          (click)="toggleColumnVisibility(columnName, !isVisible)"
+        >
+          <ng-icon [svg]="isVisible ? ICONS.visible : ICONS.hidden" />
+        </button>
       </div>
     }
   }

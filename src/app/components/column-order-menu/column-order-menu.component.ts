@@ -14,7 +14,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
+import { heroEyeMicro, heroEyeSlashMicro } from '@ng-icons/heroicons/micro';
 import { heroBars2 } from '@ng-icons/heroicons/outline';
+import { Person } from '../../types/person';
 import { TableComponent } from '../table/table.component';
 
 @Component({
@@ -29,11 +31,15 @@ export class ColumnOrderMenuComponent {
 
   protected readonly ICONS = {
     dragHandle: heroBars2,
+    visible: heroEyeMicro,
+    hidden: heroEyeSlashMicro,
   } as const;
 
   protected readonly columnOrder = this.#table.columnOrder;
 
   protected readonly columns = this.#table.columns;
+
+  protected readonly columnVisibility = this.#table.columnVisibility;
 
   protected readonly dropList = viewChild.required(CdkDropList);
 
@@ -56,5 +62,12 @@ export class ColumnOrderMenuComponent {
       },
       { injector: this.#injector },
     );
+  }
+
+  protected toggleColumnVisibility(columnKey: keyof Person, isVisible: boolean): void {
+    this.columnVisibility.update((visibility) => ({
+      ...visibility,
+      [columnKey]: isVisible,
+    }));
   }
 }

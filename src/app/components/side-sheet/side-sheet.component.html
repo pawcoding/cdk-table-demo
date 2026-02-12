@@ -12,12 +12,13 @@
         <button
           class="flex size-8 cursor-pointer items-center justify-center rounded-sm hover:bg-neutral-200 dark:hover:bg-neutral-700"
           (click)="isOpen.set(false)"
+          title="Close"
         >
           <ng-icon [svg]="ICONS.close" />
         </button>
       </div>
 
-      <p>{{ description() }}</p>
+      <p class="text-sm">{{ description() }}</p>
     </section>
 
     <hr class="my-4 border-neutral-200 dark:border-neutral-700" />

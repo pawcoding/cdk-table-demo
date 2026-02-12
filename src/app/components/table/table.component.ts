@@ -38,7 +38,7 @@ import { SideSheetComponent } from '../side-sheet/side-sheet.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
-  readonly #people = inject(PeopleService);
+  readonly #peopleService = inject(PeopleService);
 
   protected readonly TEXT_COLUMNS: Array<keyof Person> = [
     'firstName',
@@ -102,7 +102,16 @@ export class TableComponent {
     defaultValue: COLUMNS.map((column) => column.key),
   });
 
-  protected readonly visibleColumns = computed(() => this.columnOrder());
+  public readonly columnVisibility = injectLocalStorage<Partial<Record<keyof Person, boolean>>>(
+    'table-column-visibility',
+    {
+      defaultValue: {},
+    },
+  );
+
+  protected readonly visibleColumns = computed(() =>
+    this.columnOrder().filter((columnKey) => this.columnVisibility()[columnKey] !== false),
+  );
 
   public readonly resizing = signal(false);
 
@@ -114,7 +123,7 @@ export class TableComponent {
         order: this.order(),
         pagination: this.pagination(),
       }) satisfies Params<Person>,
-    loader: ({ abortSignal, params }) => this.#people.getPeople(abortSignal, params),
+    loader: ({ abortSignal, params }) => this.#peopleService.getPeople(abortSignal, params),
     defaultValue: [],
   });
 

@@ -8,6 +8,7 @@
     (keydown.enter)="goToPage(-1)"
     (keydown.space)="goToPage(-1)"
     class="flex size-10 items-center justify-center rounded-sm not-aria-disabled:cursor-pointer hover:not-aria-disabled:bg-neutral-200 dark:hover:not-aria-disabled:bg-neutral-700"
+    title="Go to previous page"
   >
     <ng-icon
       [svg]="ICONS.previous"
@@ -26,6 +27,7 @@
     (keydown.enter)="goToPage(1)"
     (keydown.space)="goToPage(1)"
     class="flex size-10 items-center justify-center rounded-sm not-aria-disabled:cursor-pointer hover:not-aria-disabled:bg-neutral-200 dark:hover:not-aria-disabled:bg-neutral-700"
+    title="Go to next page"
   >
     <ng-icon
       [svg]="ICONS.next"
@@ -49,6 +51,7 @@
     value="pageSize"
     id="pageSize"
     class="cursor-pointer rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+    title="Configure page size"
   >
     <b> {{ pageSize() }} </b>
     per page
@@ -84,6 +87,7 @@
             (keydown.enter)="setPageSize(numItems)"
             (keydown.space)="setPageSize(numItems)"
             class="cursor-pointer rounded-sm p-2 text-left hover:bg-neutral-200 dark:hover:bg-neutral-700"
+            [title]="`Show ${numItems} people per page`"
           >
             <b> {{ numItems }} </b>
             per page
@@ -107,6 +111,7 @@
     (click)="toggleColumnOrderSideSheet()"
     (keydown.enter)="toggleColumnOrderSideSheet()"
     (keydown.space)="toggleColumnOrderSideSheet()"
+    title="Open column configuration menu"
     class="flex size-10 cursor-pointer items-center justify-center rounded-sm hover:bg-neutral-200 dark:hover:bg-neutral-700"
   >
     <ng-icon
