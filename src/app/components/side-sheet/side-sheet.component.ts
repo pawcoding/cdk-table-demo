@@ -2,6 +2,7 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -20,6 +21,7 @@ import { heroXMarkMini } from '@ng-icons/heroicons/mini';
   selector: 'app-side-sheet',
   imports: [NgIconComponent, CdkTrapFocus],
   templateUrl: './side-sheet.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideSheetComponent {
   readonly #overlay = inject(Overlay);

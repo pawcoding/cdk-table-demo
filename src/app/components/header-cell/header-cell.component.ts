@@ -1,5 +1,12 @@
 import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
-import { Component, computed, inject, input, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
 import {
   heroArrowDownMicro,
@@ -13,6 +20,7 @@ import { TableComponent } from '../table/table.component';
   selector: 'app-header-cell',
   imports: [NgIconComponent, CdkDrag],
   templateUrl: './header-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'group cursor-default select-none relative p-2 block',
   },

@@ -10,7 +10,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "type": "component"
+          "type": "component",
+          "changeDetection": "OnPush"
         },
         "@schematics/angular:service": {
           "type": "service"
