@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
@@ -27,6 +28,7 @@ import { TableComponent } from '../table/table.component';
 })
 export class HeaderCellComponent {
   readonly #table = inject(TableComponent);
+  readonly #liveAnnouncer = inject(LiveAnnouncer);
 
   protected readonly ICONS = {
     sortAsc: heroArrowUpMicro,
@@ -65,6 +67,12 @@ export class HeaderCellComponent {
     } else {
       this.#table.order.set({ key: this.key(), direction: 'asc' });
     }
+
+    this.#liveAnnouncer.announce(
+      `Sorted by ${this.column()?.label} in ${this.sortDirection() === 'asc' ? 'ascending' : 'descending'} order`,
+      'polite',
+      3000,
+    );
   }
 
   protected resizing(isResizing: boolean): void {

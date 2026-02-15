@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -28,6 +29,7 @@ import { TableComponent } from '../table/table.component';
 })
 export class ColumnOrderMenuComponent {
   readonly #table = inject(TableComponent);
+  readonly #liveAnnouncer = inject(LiveAnnouncer);
   readonly #injector = inject(Injector);
 
   protected readonly ICONS = {
@@ -85,14 +87,18 @@ export class ColumnOrderMenuComponent {
     }
 
     if (wasPreviouslySticky !== isCurrentlySticky) {
-      this.stickyColumns.update((stickyColumns) => {
-        const columnKey = this.columnOrder()[currentIndex];
+      const columnKey = this.columnOrder()[currentIndex];
+      this.stickyColumns.update((stickyColumns) => ({
+        ...stickyColumns,
+        [columnKey]: isCurrentlySticky,
+      }));
 
-        return {
-          ...stickyColumns,
-          [columnKey]: isCurrentlySticky,
-        };
-      });
+      const columnLabel = this.columns()[columnKey]?.label ?? columnKey;
+      this.#liveAnnouncer.announce(
+        `${columnLabel} column is now ${isCurrentlySticky ? 'pinned' : 'unpinned'}`,
+        'polite',
+        3000,
+      );
     }
 
     afterNextRender(
@@ -116,5 +122,11 @@ export class ColumnOrderMenuComponent {
       ...visibility,
       [columnKey]: isVisible,
     }));
+
+    this.#liveAnnouncer.announce(
+      `${this.columns()[columnKey]?.label ?? columnKey} column is now ${isVisible ? 'shown' : 'hidden'} in the table`,
+      'polite',
+      3000,
+    );
   }
 }

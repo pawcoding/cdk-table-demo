@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CdkTable, CdkTableModule } from '@angular/cdk/table';
 import { DatePipe } from '@angular/common';
 import {
@@ -42,6 +43,7 @@ import { SideSheetComponent } from '../side-sheet/side-sheet.component';
 })
 export class TableComponent {
   readonly #peopleService = inject(PeopleService);
+  readonly #liveAnnouncer = inject(LiveAnnouncer);
   readonly #injector = inject(Injector);
 
   protected readonly TEXT_COLUMNS: Array<keyof Person> = [
@@ -190,5 +192,7 @@ export class TableComponent {
     this.columnWidths.set({});
     this.columnVisibility.set({});
     this.stickyColumns.set({});
+
+    this.#liveAnnouncer.announce('Columns reset');
   }
 }

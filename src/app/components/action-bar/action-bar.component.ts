@@ -1,5 +1,6 @@
 import { Menu, MenuContent, MenuItem, MenuTrigger } from '@angular/aria/menu';
 import { Toolbar, ToolbarWidget } from '@angular/aria/toolbar';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
@@ -32,6 +33,7 @@ import { TableComponent } from '../table/table.component';
 })
 export class ActionBarComponent {
   readonly #table = inject(TableComponent);
+  readonly #liveAnnouncer = inject(LiveAnnouncer);
 
   protected readonly ICONS = {
     previous: heroChevronLeftMini,
@@ -59,6 +61,8 @@ export class ActionBarComponent {
       pageSize: size,
       pageIndex: 0,
     });
+
+    this.#liveAnnouncer.announce(`Page size set to ${size} items per page`, 'polite', 3000);
   }
 
   protected goToPage(delta: number): void {
@@ -69,6 +73,8 @@ export class ActionBarComponent {
     }
 
     this.#table.pagination.update((pagination) => ({ ...pagination, pageIndex: newIndex }));
+
+    this.#liveAnnouncer.announce(`Navigated to page ${newIndex + 1}`, 'polite', 3000);
   }
 
   protected toggleColumnOrderSideSheet(): void {

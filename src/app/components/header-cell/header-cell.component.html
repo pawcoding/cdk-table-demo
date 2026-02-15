@@ -1,14 +1,16 @@
 @if (column(); as column) {
-  <span
-    class="inline-flex items-center gap-2"
-    [class.cursor-pointer]="column.sortable"
-    (click)="column.sortable ? this.updateSortDirection() : null"
-  >
-    <ng-icon [svg]="column.icon" />
+  @if (column.sortable) {
+    @let columnTitle = `Click to sort by ${column.label}`;
+    @let sortTitle = sortDirection() === 'asc' ? 'in descending order' : 'in ascending order';
+    <button
+      class="inline-flex cursor-pointer items-center gap-2"
+      [title]="`${columnTitle} ${sortTitle}`"
+      (click)="this.updateSortDirection()"
+    >
+      <ng-icon [svg]="column.icon" />
 
-    <span>{{ column.label }}</span>
+      <span>{{ column.label }}</span>
 
-    @if (column.sortable) {
       <span class="flex size-4 items-center">
         @if (sortDirection(); as direction) {
           <ng-icon
@@ -23,8 +25,14 @@
           />
         }
       </span>
-    }
-  </span>
+    </button>
+  } @else {
+    <span class="inline-flex items-center gap-2">
+      <ng-icon [svg]="column.icon" />
+
+      <span>{{ column.label }}</span>
+    </span>
+  }
 
   @if (column.resizable) {
     <div

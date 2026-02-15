@@ -3,6 +3,7 @@
 @import 'tailwindcss';
 
 @import '@angular/cdk/overlay-prebuilt.css' layer(base);
+@import '@angular/cdk/a11y-prebuilt.css' layer(base);
 
 @layer components {
   .cdk-drop-list-dragging {
