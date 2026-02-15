@@ -3,6 +3,20 @@
   (cdkDropListDropped)="onDrop($event)"
 >
   @for (columnName of columnOrder(); track columnName) {
+    @if ($index - 1 === lastStickyColumnIndex()) {
+      <div
+        cdkDrag
+        cdkDragDisabled
+        class="flex items-center py-2 text-neutral-500 select-none dark:text-neutral-300"
+      >
+        <hr class="grow border-neutral-300 dark:border-neutral-600" />
+
+        <span class="mr-2 ml-4 text-sm"> Pin </span>
+
+        <ng-icon [svg]="ICONS.pin" />
+      </div>
+    }
+
     @if (columns()[columnName]; as column) {
       <div
         cdkDrag
@@ -11,12 +25,14 @@
         class="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded bg-neutral-100 p-1 focus-within:bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:focus-within:bg-neutral-700 dark:hover:bg-neutral-700"
         [title]="column.label"
       >
+        @let index = $index <= lastStickyColumnIndex() ? $index : $index + 1;
+
         <span
           cdkDragHandle
           class="flex size-8 cursor-grab items-center justify-center rounded"
           tabindex="0"
-          (keydown.arrowdown)="onDrop({ previousIndex: $index, currentIndex: $index + 1 })"
-          (keydown.arrowup)="onDrop({ previousIndex: $index, currentIndex: $index - 1 })"
+          (keydown.arrowdown)="onDrop({ previousIndex: index, currentIndex: index + 1 })"
+          (keydown.arrowup)="onDrop({ previousIndex: index, currentIndex: index - 1 })"
         >
           <ng-icon [svg]="ICONS.dragHandle" />
         </span>

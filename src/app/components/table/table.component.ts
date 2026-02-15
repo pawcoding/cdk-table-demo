@@ -109,6 +109,13 @@ export class TableComponent {
     },
   );
 
+  public readonly stickyColumns = injectLocalStorage<Partial<Record<keyof Person, boolean>>>(
+    'table-sticky-columns',
+    {
+      defaultValue: {},
+    },
+  );
+
   protected readonly visibleColumns = computed(() =>
     this.columnOrder().filter((columnKey) => this.columnVisibility()[columnKey] !== false),
   );
@@ -146,5 +153,12 @@ export class TableComponent {
       this.columnWidths()[columnKey] ?? this.columns()[columnKey]?.defaultWidth ?? 100;
     const newWidth = Math.max(currentWidth + deltaX, 100);
     this.columnWidths.update((widths) => ({ ...widths, [columnKey]: newWidth }));
+  }
+
+  protected resetColumns(): void {
+    this.columnOrder.set(COLUMNS.map((column) => column.key));
+    this.columnWidths.set({});
+    this.columnVisibility.set({});
+    this.stickyColumns.set({});
   }
 }

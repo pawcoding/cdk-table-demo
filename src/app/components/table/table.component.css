@@ -1,9 +1,11 @@
 table {
   --border-color: var(--color-neutral-200);
+  --sticky-border-color: var(--color-neutral-300);
   --background-color: var(--color-white);
 
   @media (prefers-color-scheme: dark) {
     --border-color: var(--color-neutral-800);
+    --sticky-border-color: var(--color-neutral-700);
     --background-color: var(--color-neutral-950);
   }
 }
@@ -20,10 +22,14 @@ td {
   &:not(:last-child) {
     border-right: 1px solid var(--border-color);
   }
+
+  &.cdk-table-sticky-border-elem-left {
+    border-right: 2px solid var(--sticky-border-color);
+  }
 }
 
 th {
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--sticky-border-color);
 }
 
 td {

@@ -7,9 +7,17 @@
 @layer components {
   .cdk-drop-list-dragging {
     @apply cursor-grabbing;
+
+    .cdk-drag:not(.cdk-drag-preview) {
+      @apply transition-transform duration-100 ease-linear;
+    }
   }
 
   .cdk-drag-preview {
     @apply bg-neutral-200! dark:bg-neutral-700!;
+  }
+
+  .cdk-drag-placeholder {
+    @apply opacity-0;
   }
 }

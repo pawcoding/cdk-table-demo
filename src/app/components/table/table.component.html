@@ -6,7 +6,10 @@
   class="mb-16 w-full table-fixed"
 >
   @for (column of TEXT_COLUMNS; track column) {
-    <ng-container [cdkColumnDef]="column">
+    <ng-container
+      [cdkColumnDef]="column"
+      [sticky]="stickyColumns()[column]"
+    >
       <th
         cdk-header-cell
         *cdkHeaderCellDef
@@ -23,7 +26,10 @@
     </ng-container>
   }
   @for (column of DATE_COLUMNS; track column) {
-    <ng-container [cdkColumnDef]="column">
+    <ng-container
+      [cdkColumnDef]="column"
+      [sticky]="stickyColumns()[column]"
+    >
       <th
         cdk-header-cell
         *cdkHeaderCellDef
@@ -40,7 +46,10 @@
     </ng-container>
   }
 
-  <ng-container cdkColumnDef="country">
+  <ng-container
+    cdkColumnDef="country"
+    [sticky]="stickyColumns().country"
+  >
     <th
       cdk-header-cell
       *cdkHeaderCellDef
@@ -56,7 +65,10 @@
     </td>
   </ng-container>
 
-  <ng-container cdkColumnDef="avatarUrl">
+  <ng-container
+    cdkColumnDef="avatarUrl"
+    [sticky]="stickyColumns().avatarUrl"
+  >
     <th
       cdk-header-cell
       *cdkHeaderCellDef
@@ -93,7 +105,19 @@
 <app-side-sheet
   [(isOpen)]="showColumnOrderSideSheet"
   label="Column configuration"
-  description="Drag and drop the columns to change their order or toggle their visibility using the eye icon."
+  description="Drag and drop the columns to change their order or toggle their visibility using the eye icon. Dragging a column above the pin line will make it stick to the left while scrolling the table horizontally."
 >
   <app-column-order-menu />
+
+  <div
+    side-sheet-footer
+    class="flex justify-end"
+    (click)="resetColumns()"
+  >
+    <button
+      class="cursor-pointer rounded-sm px-3 py-2 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+    >
+      Reset columns
+    </button>
+  </div>
 </app-side-sheet>

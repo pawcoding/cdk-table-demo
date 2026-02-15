@@ -9,13 +9,14 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   Injector,
   viewChild,
 } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
 import { heroEyeMicro, heroEyeSlashMicro } from '@ng-icons/heroicons/micro';
-import { heroBars2 } from '@ng-icons/heroicons/outline';
+import { heroArrowUp, heroBars2 } from '@ng-icons/heroicons/outline';
 import { Person } from '../../types/person';
 import { TableComponent } from '../table/table.component';
 
@@ -33,6 +34,7 @@ export class ColumnOrderMenuComponent {
     dragHandle: heroBars2,
     visible: heroEyeMicro,
     hidden: heroEyeSlashMicro,
+    pin: heroArrowUp,
   } as const;
 
   protected readonly columnOrder = this.#table.columnOrder;
@@ -41,20 +43,63 @@ export class ColumnOrderMenuComponent {
 
   protected readonly columnVisibility = this.#table.columnVisibility;
 
+  protected readonly stickyColumns = this.#table.stickyColumns;
+
   protected readonly dropList = viewChild.required(CdkDropList);
 
+  protected readonly lastStickyColumnIndex = computed(() => {
+    const order = this.columnOrder();
+    const stickyColumns = this.stickyColumns();
+
+    return order.reduce((lastStickyIndex, column, index) => {
+      if (stickyColumns[column]) {
+        return index;
+      }
+
+      return lastStickyIndex;
+    }, -1);
+  });
+
   protected onDrop(event: Pick<CdkDragDrop<void>, 'previousIndex' | 'currentIndex'>): void {
-    this.columnOrder.update((order) => {
-      const newOrder = [...order];
-      moveItemInArray(newOrder, event.previousIndex, event.currentIndex);
-      return newOrder;
-    });
+    if (event.previousIndex === event.currentIndex) {
+      return;
+    }
+
+    const wasPreviouslySticky = event.previousIndex <= this.lastStickyColumnIndex() + 1;
+    let isCurrentlySticky;
+    if (event.currentIndex > event.previousIndex) {
+      isCurrentlySticky = !(event.currentIndex > this.lastStickyColumnIndex());
+    } else {
+      isCurrentlySticky = event.currentIndex <= this.lastStickyColumnIndex() + 1;
+    }
+
+    const previousIndex = wasPreviouslySticky ? event.previousIndex : event.previousIndex - 1;
+    const currentIndex = isCurrentlySticky ? event.currentIndex : event.currentIndex - 1;
+
+    if (previousIndex !== currentIndex) {
+      this.columnOrder.update((order) => {
+        const newOrder = [...order];
+        moveItemInArray(newOrder, previousIndex, currentIndex);
+        return newOrder;
+      });
+    }
+
+    if (wasPreviouslySticky !== isCurrentlySticky) {
+      this.stickyColumns.update((stickyColumns) => {
+        const columnKey = this.columnOrder()[currentIndex];
+
+        return {
+          ...stickyColumns,
+          [columnKey]: isCurrentlySticky,
+        };
+      });
+    }
 
     afterNextRender(
       () => {
         const dragHandle = this.dropList()
           .element.nativeElement.getElementsByClassName('cdk-drag-handle')
-          .item(event.currentIndex);
+          .item(currentIndex);
 
         if (dragHandle) {
           (dragHandle as HTMLElement).focus();
