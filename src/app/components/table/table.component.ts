@@ -1,12 +1,15 @@
-import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTable, CdkTableModule } from '@angular/cdk/table';
 import { DatePipe } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
+  Injector,
   resource,
   signal,
+  viewChild,
 } from '@angular/core';
 import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { COLUMNS } from '../../constants/columns';
@@ -39,6 +42,7 @@ import { SideSheetComponent } from '../side-sheet/side-sheet.component';
 })
 export class TableComponent {
   readonly #peopleService = inject(PeopleService);
+  readonly #injector = inject(Injector);
 
   protected readonly TEXT_COLUMNS: Array<keyof Person> = [
     'firstName',
@@ -56,6 +60,8 @@ export class TableComponent {
   protected readonly DATE_COLUMNS: Array<keyof Person> = ['createdAt', 'updatedAt'];
 
   readonly #columns = COLUMNS;
+
+  protected readonly table = viewChild.required(CdkTable);
 
   public readonly columns = computed(() => {
     const columns: Partial<Record<keyof Person, Column<Person>>> = {};
@@ -153,6 +159,30 @@ export class TableComponent {
       this.columnWidths()[columnKey] ?? this.columns()[columnKey]?.defaultWidth ?? 100;
     const newWidth = Math.max(currentWidth + deltaX, 100);
     this.columnWidths.update((widths) => ({ ...widths, [columnKey]: newWidth }));
+
+    this.maybeUpdateStickyStyles(columnKey);
+  }
+
+  private maybeUpdateStickyStyles(columnKey: keyof Person): void {
+    const isSticky = this.stickyColumns()[columnKey];
+    if (!isSticky) {
+      return;
+    }
+
+    const columnIndex = this.columnOrder().indexOf(columnKey);
+    const isLastSticky = !this.stickyColumns()[this.columnOrder()[columnIndex + 1]];
+    if (isLastSticky) {
+      return;
+    }
+
+    afterNextRender(
+      {
+        mixedReadWrite: () => {
+          this.table().updateStickyColumnStyles();
+        },
+      },
+      { injector: this.#injector },
+    );
   }
 
   protected resetColumns(): void {

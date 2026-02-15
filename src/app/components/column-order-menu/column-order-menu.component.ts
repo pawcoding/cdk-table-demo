@@ -96,14 +96,16 @@ export class ColumnOrderMenuComponent {
     }
 
     afterNextRender(
-      () => {
-        const dragHandle = this.dropList()
-          .element.nativeElement.getElementsByClassName('cdk-drag-handle')
-          .item(currentIndex);
+      {
+        read: () => {
+          const dragHandle = this.dropList()
+            .element.nativeElement.getElementsByClassName('cdk-drag-handle')
+            .item(currentIndex);
 
-        if (dragHandle) {
-          (dragHandle as HTMLElement).focus();
-        }
+          if (dragHandle) {
+            (dragHandle as HTMLElement).focus();
+          }
+        },
       },
       { injector: this.#injector },
     );
