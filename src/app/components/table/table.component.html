@@ -3,7 +3,7 @@
   [dataSource]="dataSource"
   [trackBy]="trackById"
   [fixedLayout]="!resizing()"
-  class="mb-16 w-full table-fixed"
+  class="isolate mb-16 w-full table-fixed"
 >
   @for (column of TEXT_COLUMNS; track column) {
     <ng-container
