@@ -63,6 +63,7 @@ export class ColumnOrderMenuComponent {
   });
 
   protected onDrop(event: Pick<CdkDragDrop<void>, 'previousIndex' | 'currentIndex'>): void {
+    document.getSelection()?.removeAllRanges();
     if (event.previousIndex === event.currentIndex) {
       return;
     }
@@ -104,17 +105,31 @@ export class ColumnOrderMenuComponent {
     afterNextRender(
       {
         read: () => {
-          const dragHandle = this.dropList()
-            .element.nativeElement.getElementsByClassName('cdk-drag-handle')
-            .item(currentIndex);
-
-          if (dragHandle) {
-            (dragHandle as HTMLElement).focus();
-          }
+          this.focusDragHandle(currentIndex);
         },
       },
       { injector: this.#injector },
     );
+  }
+
+  protected focusDragHandle(index: number): void {
+    const dragHandle = this.dropList()
+      .element.nativeElement.getElementsByClassName('cdk-drag-handle')
+      .item(index);
+
+    if (dragHandle) {
+      (dragHandle as HTMLElement).focus();
+    }
+  }
+
+  protected focusVisibilityToggle(index: number): void {
+    const visibilityToggle = this.dropList()
+      .element.nativeElement.getElementsByClassName('visibility-toggle')
+      .item(index);
+
+    if (visibilityToggle) {
+      (visibilityToggle as HTMLElement).focus();
+    }
   }
 
   protected toggleColumnVisibility(columnKey: keyof Person, isVisible: boolean): void {
